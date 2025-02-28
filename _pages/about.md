@@ -23,4 +23,7 @@ European Conference on Computer Vision 2024 (Oral)\\
 IEEE Transactions on Visualization and Computer Graphics 2024\\
 **Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>*</sup>
 
+Awards
+------
+3<sup>rd</sup> solution in MICCAI 2024 Challenge 3DTeethLand
 
