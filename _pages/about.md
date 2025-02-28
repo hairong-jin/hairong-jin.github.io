@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "About ME"
+title: "Hairong Jin's Homepage"
 author_profile: true
 redirect_from: 
   - /about/
