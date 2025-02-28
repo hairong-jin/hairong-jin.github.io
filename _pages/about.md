@@ -16,11 +16,11 @@ For collaboration or inquiries, feel free to contact me at hairong_jin@zju.edu.c
 Publication
 ------
 [KeypointDETR: An End-to-End 3D Keypoint Detector](https://link.springer.com/chapter/10.1007/978-3-031-72904-1_22)\\
-ECCV 2024 (Oral)\\
+European Conference on Computer Vision 2024 (Oral)\\
 **Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>*</sup>
 
-[TSRNet: A Dual-stream Network for Refining 3D Tooth Segmentation](https://ieeexplore.ieee.org/abstract/document/10562232)
-IEEE Transactions on Visualization and Computer Graphics 2024
+[TSRNet: A Dual-stream Network for Refining 3D Tooth Segmentation](https://ieeexplore.ieee.org/abstract/document/10562232)\\
+IEEE Transactions on Visualization and Computer Graphics 2024\\
 **Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>*</sup>
 
 
