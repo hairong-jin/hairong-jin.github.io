@@ -19,4 +19,8 @@ Publication
 ECCV 2024 (Oral)\\
 **Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>*</sup>
 
+[TSRNet: A Dual-stream Network for Refining 3D Tooth Segmentation](https://ieeexplore.ieee.org/abstract/document/10562232)
+IEEE Transactions on Visualization and Computer Graphics 2024
+**Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>*</sup>
+
 
