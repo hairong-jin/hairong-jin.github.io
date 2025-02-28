@@ -17,6 +17,6 @@ Publication
 ------
 [KeypointDETR: An End-to-End 3D Keypoint Detector](https://link.springer.com/chapter/10.1007/978-3-031-72904-1_22)\\
 ECCV 2024 (Oral)\\
-**Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng^{*}^ 
+**Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>2</sup>
 
 
