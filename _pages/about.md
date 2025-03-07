@@ -17,11 +17,15 @@ Publication
 ------
 [KeypointDETR: An End-to-End 3D Keypoint Detector](https://link.springer.com/chapter/10.1007/978-3-031-72904-1_22)\\
 European Conference on Computer Vision 2024 (Oral)\\
-**Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>*</sup>
+**Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>\dagger</sup>
 
 [TSRNet: A Dual-stream Network for Refining 3D Tooth Segmentation](https://ieeexplore.ieee.org/abstract/document/10562232)\\
 IEEE Transactions on Visualization and Computer Graphics 2024\\
-**Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>*</sup>
+**Hairong Jin**, Yuefan Shen, Jianwen Lou, Kun Zhou, Youyi Zheng<sup>\dagger</sup>
+
+A Two-Stage Framework with Dual-Branch Network for End-to-End 3D Tooth Landmark Detection
+MICCAI 2024 Workshop
+Kaibo Shi<sup>*</sup>, **Hairong Jin**<sup>*</sup>, Youyi Zheng<sup>\dagger</sup>
 
 Awards
 ------
