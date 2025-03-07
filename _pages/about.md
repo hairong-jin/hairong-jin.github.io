@@ -27,10 +27,6 @@ A Two-Stage Framework with Dual-Branch Network for End-to-End 3D Tooth Landmark 
 MICCAI 2024 Workshop\\
 Kaibo Shi<sup>*</sup>, **Hairong Jin**<sup>*</sup>, Youyi Zheng
 
-[Pose-invariant matching for non-rigid 3D models using Isomap](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0264192)\\
-Plos One 2022\\
-**Hairong Jin**, *et al.*
-
 Awards
 ------
 3<sup>rd</sup> solution in MICCAI 2024 Challenge 3DTeethLand
