@@ -29,5 +29,5 @@ Kaibo Shi<sup>*</sup>, **Hairong Jin**<sup>*</sup>, Youyi Zheng
 
 Awards
 ------
-3<sup>rd</sup> solution in MICCAI 2024 Challenge 3DTeethLand
+🥉 3<sup>rd</sup> solution in MICCAI 2024 Challenge 3DTeethLand
 
