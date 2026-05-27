@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="SH-Cubes - Hairong Jin">
+  <meta name="description" content="Project page for SH-Cubes by Hairong Jin at Zhejiang University.">
+  <meta name="keywords" content="SH-Cubes, computer graphics, geometry processing, Zhejiang University, CADCG">
+  <meta name="author" content="Hairong Jin">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hairong Jin">
+  <meta property="og:title" content="SH-Cubes">
+  <meta property="og:description" content="Project page for SH-Cubes by Hairong Jin at Zhejiang University.">
+  <meta property="og:url" content="https://hairong-jin.github.io/projects/SH-Cubes/">
+  <meta property="og:image" content="https://hairong-jin.github.io/projects/SH-Cubes/static/images/carousel1.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SH-Cubes">
+  <meta name="twitter:description" content="Project page for SH-Cubes by Hairong Jin at Zhejiang University.">
+  <meta name="twitter:image" content="https://hairong-jin.github.io/projects/SH-Cubes/static/images/carousel1.jpg">
+
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>SH-Cubes - Hairong Jin</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "SH-Cubes",
+    "description": "Project page for SH-Cubes by Hairong Jin at Zhejiang University.",
+    "author": {
+      "@type": "Person",
+      "name": "Hairong Jin",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    },
+    "url": "https://hairong-jin.github.io/projects/SH-Cubes/",
+    "image": "https://hairong-jin.github.io/projects/SH-Cubes/static/images/carousel1.jpg",
+    "isAccessibleForFree": true
+  }
+  </script>
+</head>
+
+<body>
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View related links">
+      <i class="fas fa-flask"></i>
+      More Links
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>Related Links</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()" aria-label="Close related links">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <a href="/" class="work-item">
+          <div class="work-info">
+            <h5>Hairong Jin</h5>
+            <p>Personal homepage.</p>
+            <span class="work-venue">hairong-jin.github.io</span>
+          </div>
+          <i class="fas fa-home"></i>
+        </a>
+        <a href="/publications/" class="work-item">
+          <div class="work-info">
+            <h5>Publications</h5>
+            <p>Research publications and papers.</p>
+            <span class="work-venue">Academic profile</span>
+          </div>
+          <i class="fas fa-book-open"></i>
+        </a>
+        <a href="https://github.com/bibi547" class="work-item" target="_blank" rel="noopener">
+          <div class="work-info">
+            <h5>GitHub</h5>
+            <p>Code and research repositories.</p>
+            <span class="work-venue">github.com/bibi547</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <section class="hero publication-header">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">SH-Cubes</h1>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="https://hairong-jin.github.io" target="_blank" rel="noopener">Hairong Jin</a>
+                </span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">State Key Lab of CAD&amp;CG, Zhejiang University</span>
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a href="#abstract" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-align-left"></i>
+                      </span>
+                      <span>Abstract</span>
+                    </a>
+                  </span>
+
+                  <span class="link-block">
+                    <a href="#resources" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-folder-open"></i>
+                      </span>
+                      <span>Resources</span>
+                    </a>
+                  </span>
+
+                  <span class="link-block">
+                    <a href="/" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-home"></i>
+                      </span>
+                      <span>Home</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser">
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <div class="publication-banner">
+            <img src="static/images/carousel1.jpg" alt="SH-Cubes teaser visualization" loading="eager">
+          </div>
+          <h2 class="subtitle has-text-centered">
+            Project page for SH-Cubes. Detailed project materials will be added here.
+          </h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="abstract">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                SH-Cubes is an academic project by Hairong Jin at Zhejiang University. This page is set up for the project abstract, method overview, visual results, paper links, code links, and citation information.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero is-small">
+      <div class="hero-body">
+        <div class="container">
+          <h2 class="title is-3 has-text-centered">Visual Results</h2>
+          <div id="results-carousel" class="carousel results-carousel">
+            <div class="item">
+              <img src="static/images/carousel1.jpg" alt="SH-Cubes visual result 1" loading="lazy">
+              <h2 class="subtitle has-text-centered">Teaser visualization.</h2>
+            </div>
+            <div class="item">
+              <img src="static/images/carousel2.jpg" alt="SH-Cubes visual result 2" loading="lazy">
+              <h2 class="subtitle has-text-centered">Result visualization.</h2>
+            </div>
+            <div class="item">
+              <img src="static/images/carousel3.jpg" alt="SH-Cubes visual result 3" loading="lazy">
+              <h2 class="subtitle has-text-centered">Additional result.</h2>
+            </div>
+            <div class="item">
+              <img src="static/images/carousel4.jpg" alt="SH-Cubes visual result 4" loading="lazy">
+              <h2 class="subtitle has-text-centered">Comparison or ablation.</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="resources">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Resources</h2>
+            <div class="content has-text-justified">
+              <p>
+                Paper, code, demo, and supplementary materials will be linked here when they are available.
+              </p>
+              <ul>
+                <li><strong>Paper:</strong> Coming soon.</li>
+                <li><strong>Code:</strong> Coming soon.</li>
+                <li><strong>Demo:</strong> Coming soon.</li>
+                <li><strong>Supplementary:</strong> Coming soon.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title">BibTeX</h2>
+          <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+            <i class="fas fa-copy"></i>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>@misc{jin2026shcubes,
+  title={SH-Cubes},
+  author={Jin, Hairong},
+  year={2026},
+  url={https://hairong-jin.github.io/projects/SH-Cubes/}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the
+              <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>,
+              which was adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page.
+              The website template is licensed under a
+              <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
