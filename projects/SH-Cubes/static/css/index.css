@@ -271,6 +271,17 @@ body {
   margin-right: 0.5rem;
 }
 
+.publication-affiliations {
+  max-width: 980px;
+  margin: 1rem auto 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.publication-affiliations .affiliation-block {
+  display: block;
+}
+
 .publication-banner img {
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
