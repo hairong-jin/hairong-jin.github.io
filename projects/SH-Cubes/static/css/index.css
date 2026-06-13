@@ -109,6 +109,16 @@ body {
   border-bottom: 1px solid var(--border-color);
 }
 
+.field-demo-section {
+  background: var(--background-primary);
+}
+
+.visual-results-section.is-light {
+  background: var(--background-secondary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
 .hero-body {
   padding: 4rem 1.5rem;
 }
@@ -344,6 +354,42 @@ body {
   color: var(--text-secondary);
   margin-top: 1rem;
   font-weight: 500;
+}
+
+.visual-results-container {
+  width: min(92vw, 1280px);
+  max-width: none !important;
+  margin: 0 auto;
+}
+
+.visual-results {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.visual-results img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.field-demo-container {
+  width: min(96vw, 1280px);
+  max-width: none !important;
+  margin: 0 auto;
+}
+
+.field-demo-frame {
+  display: block;
+  width: 100%;
+  height: min(78vh, 740px);
+  min-height: 560px;
+  border: 0;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  background: #ffffff;
 }
 
 /* Pagination and Misc Improvements */
@@ -709,6 +755,11 @@ code {
 
   .teaser-caption {
     text-align: left !important;
+  }
+
+  .field-demo-frame {
+    height: 62vh;
+    min-height: 420px;
   }
   
   .content.has-text-justified {

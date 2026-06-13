@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SH-Cubes: Continuous Anisotropic Field</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #ffffff; font-family: sans-serif; }
+        #info { position: absolute; top: 15px; left: 15px; color: #000000; pointer-events: none; }
+        #info h1 { margin: 0; font-size: 22px; font-weight: bold; }
+        #info p { margin: 5px 0 0 0; font-size: 14px; color: #555555; }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h1>SH-Cubes Continuous Anisotropic Field Fitting Demo</h1>
+        <p>
+            Active vertex: <span id="active-vertex-label">V3</span><br>
+            Red vertices: SDF &lt; 0 &nbsp;|&nbsp; Blue vertices: SDF &gt; 0
+        </p>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+            "lil-gui": "https://unpkg.com/lil-gui@0.19.1/dist/lil-gui.esm.min.js"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import GUI from 'lil-gui';
+
+        // ==========================================
+        // 1. Scene and camera initialization
+        // ==========================================
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xffffff);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(2.2, 1.5, 2.2);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(0.5, 0.5, 0.5);
+        controls.update();
+
+        // ==========================================
+        // 2. Draw thick wireframe edges and dynamic vertices
+        // ==========================================
+        const corners = [
+            [0,0,0], [1,0,0], [0,1,0], [1,1,0],
+            [0,0,1], [1,0,1], [0,1,1], [1,1,1]
+        ];
+
+        function createThickEdge(p1, p2) {
+            const distance = p1.distanceTo(p2);
+            const edgeGeo = new THREE.CylinderGeometry(0.008, 0.008, distance, 8);
+            const edgeMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+            const mesh = new THREE.Mesh(edgeGeo, edgeMat);
+            const mid = new THREE.Vector3().addVectors(p1, p2).multiplyScalar(0.5);
+            mesh.position.copy(mid);
+            mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3().subVectors(p2, p1).normalize());
+            scene.add(mesh);
+        }
+
+        const edges = [
+            [0,1], [2,3], [4,5], [6,7],
+            [0,2], [1,3], [4,6], [5,7],
+            [0,4], [1,5], [2,6], [3,7]
+        ];
+        edges.forEach(pair => {
+            createThickEdge(new THREE.Vector3(...corners[pair[0]]), new THREE.Vector3(...corners[pair[1]]));
+        });
+
+        // Core SDF values and nine SH coefficients
+        const base_sdfs = [-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, -1.0, 1.0];
+        const sh_coeffs = Array(8).fill(0).map(() => [0,0,0,0, 0,0,0,0,0]);
+        sh_coeffs[3] = [0.0, 2.5, 0.0, 0.0,  0.0, 0.0, 1.5, 0.0, -1.0];
+
+        // Draw eight vertex markers
+        const pointMeshes = [];
+        const pointGeo = new THREE.SphereGeometry(0.035, 16, 16);
+        corners.forEach((p, i) => {
+            const colorHex = base_sdfs[i] < 0 ? 0xff3333 : 0x3366ff;
+            const mat = new THREE.MeshBasicMaterial({ color: colorHex });
+            const mesh = new THREE.Mesh(pointGeo, mat);
+            mesh.position.set(...p);
+            scene.add(mesh);
+            pointMeshes.push(mesh);
+        });
+
+        function createLabelSprite(text) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.strokeStyle = '#111111';
+            ctx.lineWidth = 5;
+            const x = 10, y = 8, width = 108, height = 48, radius = 12;
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#111111';
+            ctx.font = 'bold 32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, 64, 33);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const material = new THREE.SpriteMaterial({
+                map: texture,
+                depthTest: false,
+                depthWrite: false
+            });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(0.16, 0.08, 1);
+            sprite.renderOrder = 10;
+            return sprite;
+        }
+
+        const cubeCenter = new THREE.Vector3(0.5, 0.5, 0.5);
+        const vertexLabels = [];
+        corners.forEach((p, i) => {
+            const position = new THREE.Vector3(...p);
+            const offset = position.clone().sub(cubeCenter).normalize().multiplyScalar(0.13);
+            const label = createLabelSprite(`V${i}`);
+            label.position.copy(position).add(offset);
+            scene.add(label);
+            vertexLabels.push(label);
+        });
+
+        function createActiveRingSprite() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#ffcc00';
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            ctx.arc(64, 64, 46, 0, Math.PI * 2);
+            ctx.stroke();
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const material = new THREE.SpriteMaterial({
+                map: texture,
+                transparent: true,
+                depthTest: false,
+                depthWrite: false
+            });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(0.18, 0.18, 1);
+            return sprite;
+        }
+
+        const activeRing = createActiveRingSprite();
+        activeRing.renderOrder = 10;
+        scene.add(activeRing);
+
+        function updateActiveVertexIndicator(idx) {
+            const position = new THREE.Vector3(...corners[idx]);
+            activeRing.position.copy(position);
+            pointMeshes.forEach((mesh, i) => {
+                mesh.scale.setScalar(i === idx ? 1.8 : 1.0);
+            });
+
+            const label = document.getElementById('active-vertex-label');
+            if (label) label.textContent = `V${idx}`;
+        }
+
+        const shArray = new Float32Array(72);
+
+        // ==========================================
+        // 3. GPU raymarching material
+        // ==========================================
+        const shaderMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                u_sdfs: { value: base_sdfs },
+                u_shs: { value: shArray },
+                u_cameraPos: { value: camera.position }
+            },
+            vertexShader: `
+                varying vec3 vWorldPos;
+                void main() {
+                    vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+                    vWorldPos = worldPosition.xyz;
+                    gl_Position = projectionMatrix * viewMatrix * worldPosition;
+                }
+            `,
+            fragmentShader: `
+                varying vec3 vWorldPos;
+                uniform vec3 u_cameraPos;
+                uniform float u_sdfs[8];
+                uniform float u_shs[72];
+
+                float evaluateField(vec3 p) {
+                    float w[8];
+                    w[0] = (1.0-p.x)*(1.0-p.y)*(1.0-p.z);
+                    w[1] = p.x*(1.0-p.y)*(1.0-p.z);
+                    w[2] = (1.0-p.x)*p.y*(1.0-p.z);
+                    w[3] = p.x*p.y*(1.0-p.z);
+                    w[4] = (1.0-p.x)*(1.0-p.y)*p.z;
+                    w[5] = p.x*(1.0-p.y)*p.z;
+                    w[6] = (1.0-p.x)*p.y*p.z;
+                    w[7] = p.x*p.y*p.z;
+
+                    vec3 d = normalize(vec3(0.5) - p);
+
+                    float y00 = 0.282095;
+                    float y1x = 0.488603 * d.x;
+                    float y1y = 0.488603 * d.y;
+                    float y1z = 0.488603 * d.z;
+                    float y2xy = 1.092548 * d.x * d.y;
+                    float y2yz = 1.092548 * d.y * d.z;
+                    float y2z2 = 0.315392 * (3.0 * d.z * d.z - 1.0);
+                    float y2xz = 1.092548 * d.x * d.z;
+                    float y2x2y2 = 0.546274 * (d.x * d.x - d.y * d.y);
+
+                    float final_S = 0.0;
+                    for(int i = 0; i < 8; i++) {
+                        int idx = i * 9;
+                        float sh_sum =
+                            u_shs[idx+0] * y00 +
+                            u_shs[idx+1] * y1x  + u_shs[idx+2] * y1y  + u_shs[idx+3] * y1z +
+                            u_shs[idx+4] * y2xy + u_shs[idx+5] * y2yz + u_shs[idx+6] * y2z2 +
+                            u_shs[idx+7] * y2xz + u_shs[idx+8] * y2x2y2;
+
+                        float gain = 1.0 + tanh(sh_sum);
+                        float s_hat = u_sdfs[i] * gain;
+                        final_S += w[i] * s_hat;
+                    }
+                    return final_S;
+                }
+
+                vec2 intersectAABB(vec3 ro, vec3 rd) {
+                    vec3 tMin = (vec3(0.0) - ro) / rd;
+                    vec3 tMax = (vec3(1.0) - ro) / rd;
+                    vec3 t1 = min(tMin, tMax);
+                    vec3 t2 = max(tMin, tMax);
+                    float tNear = max(max(t1.x, t1.y), t1.z);
+                    float tFar = min(min(t2.x, t2.y), t2.z);
+                    return vec2(tNear, tFar);
+                }
+
+                void main() {
+                    vec3 ro = u_cameraPos;
+                    vec3 rd = normalize(vWorldPos - u_cameraPos);
+
+                    vec2 tBounds = intersectAABB(ro, rd);
+                    if(tBounds.x > tBounds.y || tBounds.y < 0.0) discard;
+
+                    float t = max(tBounds.x, 0.0);
+                    float dt = 0.01;
+                    float v_prev = evaluateField(ro + rd * t);
+                    float t_hit = -1.0;
+
+                    for(int i=0; i<150; i++) {
+                        t += dt;
+                        if(t > tBounds.y) break;
+                        vec3 p = ro + rd * t;
+                        float v = evaluateField(p);
+
+                        if(v_prev * v < 0.0) {
+                            float t0 = t - dt;
+                            float t1 = t;
+                            for(int j=0; j<6; j++) {
+                                float tm = (t0 + t1) * 0.5;
+                                if(evaluateField(ro + rd * tm) * v_prev < 0.0) t1 = tm;
+                                else t0 = tm;
+                            }
+                            t_hit = (t0 + t1) * 0.5;
+                            break;
+                        }
+                        v_prev = v;
+                    }
+
+                    if(t_hit > 0.0) {
+                        vec3 p = ro + rd * t_hit;
+                        vec2 e = vec2(0.001, 0.0);
+                        vec3 n = normalize(vec3(
+                            evaluateField(p + e.xyy) - evaluateField(p - e.xyy),
+                            evaluateField(p + e.yxy) - evaluateField(p - e.yxy),
+                            evaluateField(p + e.yyx) - evaluateField(p - e.yyx)
+                        ));
+
+                        vec3 lightDir = normalize(vec3(1.0, 2.0, 1.5));
+                        float diff = max(dot(n, lightDir), 0.0);
+
+                        // Gel-like appearance: add a Fresnel rim-lighting term.
+                        float fresnel = pow(1.0 - max(dot(n, -rd), 0.0), 3.0);
+                        vec3 baseCol = vec3(0.2, 0.8, 0.4);
+                        vec3 col = baseCol * (diff * 0.6 + 0.4) + vec3(0.6, 1.0, 0.7) * fresnel;
+
+                        // Translucent alpha: keep the body transparent and make silhouettes slightly more opaque.
+                        float alpha = 0.55 + 0.35 * fresnel;
+                        gl_FragColor = vec4(col, alpha);
+                    } else {
+                        discard;
+                    }
+                }
+            `,
+            side: THREE.DoubleSide,
+            transparent: true,
+            depthWrite: false // Prevent the translucent material from incorrectly occluding the wireframe and vertices behind it.
+        });
+
+        const volumeGeometry = new THREE.BoxGeometry(1, 1, 1).translate(0.5, 0.5, 0.5);
+        const volumeMesh = new THREE.Mesh(volumeGeometry, shaderMaterial);
+        scene.add(volumeMesh);
+
+        // ==========================================
+        // 4. GUI control panel
+        // ==========================================
+        const gui = new GUI({ title: 'Parameter Controls', width: 300 });
+
+        const state = {
+            activeVertex: 'V3',
+            s: base_sdfs[3],
+            l0: sh_coeffs[3][0],
+            l1x: sh_coeffs[3][1], l1y: sh_coeffs[3][2], l1z: sh_coeffs[3][3],
+            l2xy: sh_coeffs[3][4], l2yz: sh_coeffs[3][5], l2z2: sh_coeffs[3][6], l2xz: sh_coeffs[3][7], l2x2y2: sh_coeffs[3][8]
+        };
+
+        const vertexMap = {
+            V0: 0, V1: 1, V2: 2, V3: 3,
+            V4: 4, V5: 5, V6: 6, V7: 7
+        };
+
+        function updateUniforms() {
+            shaderMaterial.uniforms.u_sdfs.value = [...base_sdfs];
+            for(let i=0; i<8; i++){
+                for(let j=0; j<9; j++){
+                    shArray[i*9 + j] = sh_coeffs[i][j];
+                }
+            }
+            shaderMaterial.uniforms.u_shs.value = shArray;
+            shaderMaterial.uniforms.u_shs.needsUpdate = true;
+        }
+        updateUniforms();
+
+        gui.add(state, 'activeVertex', Object.keys(vertexMap)).name('Active Vertex').onChange(v => {
+            const idx = vertexMap[v];
+            state.s = base_sdfs[idx];
+            state.l0 = sh_coeffs[idx][0];
+            state.l1x = sh_coeffs[idx][1]; state.l1y = sh_coeffs[idx][2]; state.l1z = sh_coeffs[idx][3];
+            state.l2xy = sh_coeffs[idx][4]; state.l2yz = sh_coeffs[idx][5]; state.l2z2 = sh_coeffs[idx][6];
+            state.l2xz = sh_coeffs[idx][7]; state.l2x2y2 = sh_coeffs[idx][8];
+            updateActiveVertexIndicator(idx);
+            gui.controllersRecursive().forEach(c => c.updateDisplay());
+        });
+        updateActiveVertexIndicator(vertexMap[state.activeVertex]);
+
+        const updateData = () => {
+            const idx = vertexMap[state.activeVertex];
+            base_sdfs[idx] = state.s;
+            sh_coeffs[idx] = [
+                state.l0,
+                state.l1x, state.l1y, state.l1z,
+                state.l2xy, state.l2yz, state.l2z2, state.l2xz, state.l2x2y2
+            ];
+            pointMeshes[idx].material.color.setHex(state.s < 0 ? 0xff3333 : 0x3366ff);
+            updateUniforms();
+        };
+
+        const fBasic = gui.addFolder('Topology and Low Frequency (SDF & L=0)');
+        fBasic.add(state, 's', -2, 2, 0.1).name('Base SDF').onChange(updateData);
+        fBasic.add(state, 'l0', -5, 5, 0.1).name('L=0 Gain').onChange(updateData);
+
+        const fDipole = gui.addFolder('Dipole Directionality (L=1)');
+        fDipole.add(state, 'l1x', -5, 5, 0.1).name('X Direction').onChange(updateData);
+        fDipole.add(state, 'l1y', -5, 5, 0.1).name('Y Direction').onChange(updateData);
+        fDipole.add(state, 'l1z', -5, 5, 0.1).name('Z Direction').onChange(updateData);
+
+        const fQuad = gui.addFolder('High-Frequency Folds and Sharp Angles (L=2)');
+        fQuad.add(state, 'l2xy', -5, 5, 0.1).name('XY Cross Term').onChange(updateData);
+        fQuad.add(state, 'l2yz', -5, 5, 0.1).name('YZ Cross Term').onChange(updateData);
+        fQuad.add(state, 'l2z2', -5, 5, 0.1).name('Z-Axis Stretch (3z^2 - 1)').onChange(updateData);
+        fQuad.add(state, 'l2xz', -5, 5, 0.1).name('XZ Cross Term').onChange(updateData);
+        fQuad.add(state, 'l2x2y2', -5, 5, 0.1).name('XY Squeeze (x^2 - y^2)').onChange(updateData);
+
+        // ==========================================
+        // 5. Render loop
+        // ==========================================
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            shaderMaterial.uniforms.u_cameraPos.value.copy(camera.position);
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>

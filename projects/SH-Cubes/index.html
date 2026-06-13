@@ -193,7 +193,7 @@
             <h2 class="title is-3">Abstract</h2>
             <div class="content has-text-justified">
               <p>
-                SH-Cubes is an academic project by Hairong Jin at Zhejiang University. This page is set up for the project abstract, method overview, visual results, paper links, code links, and citation information.
+                Differentiable surface extraction from implicit fields is a fundamental task in 3D reconstruction. However, accurately capturing sharp geometric features while maintaining topological integrity and high mesh quality remains a formidable challenge. Existing grid-based methods typically rely on isotropic implicit representations, which struggle to capture fine-grained sub-grid structures, forcing a compromise between over-smoothed features and mesh distortions caused by excessive vertex shifting. In this paper, we introduce <strong>SH-Cubes</strong>, a novel differentiable isosurface extraction framework driven by an Anisotropic Directional Field. By augmenting the Signed Distance Field (SDF) with Spherical Harmonics (SH), we enrich the implicit representation with direction-aware geometric priors to resolve complex intra-cell geometry. During the mesh extraction stage, to robustly determine dual vertex placements, we introduce a complexity-aware adaptive aggregation module that optimally integrates geometric cues across edges, faces, and cells. Driven by our feature-aware directional formulation, the mesh naturally aligns its topology with underlying geometric discontinuities. This allows for the high-fidelity reconstruction of intricate surface details while adhering to manifold constraints. Extensive evaluations demonstrate that SH-Cubes achieves state-of-the-art reconstruction quality on complex topologies, successfully reconciling the inherent trade-off between high-frequency geometric feature recovery and robust, artifact-free mesh extraction.
               </p>
             </div>
           </div>
@@ -201,48 +201,21 @@
       </div>
     </section>
 
-    <section class="hero is-small">
+    <section class="hero is-small field-demo-section">
       <div class="hero-body">
-        <div class="container">
-          <h2 class="title is-3 has-text-centered">Visual Results</h2>
-          <div id="results-carousel" class="carousel results-carousel">
-            <div class="item">
-              <img src="static/images/carousel1.jpg" alt="SH-Cubes visual result 1" loading="lazy">
-              <h2 class="subtitle has-text-centered">Teaser visualization.</h2>
-            </div>
-            <div class="item">
-              <img src="static/images/carousel2.jpg" alt="SH-Cubes visual result 2" loading="lazy">
-              <h2 class="subtitle has-text-centered">Result visualization.</h2>
-            </div>
-            <div class="item">
-              <img src="static/images/carousel3.jpg" alt="SH-Cubes visual result 3" loading="lazy">
-              <h2 class="subtitle has-text-centered">Additional result.</h2>
-            </div>
-            <div class="item">
-              <img src="static/images/carousel4.jpg" alt="SH-Cubes visual result 4" loading="lazy">
-              <h2 class="subtitle has-text-centered">Comparison or ablation.</h2>
-            </div>
-          </div>
+        <div class="container field-demo-container">
+          <h2 class="title is-3 has-text-centered">Continuous Anisotropic Field</h2>
+          <iframe class="field-demo-frame" src="field.html" title="Continuous Anisotropic Field" loading="lazy"></iframe>
         </div>
       </div>
     </section>
 
-    <section class="section hero is-light" id="resources">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-            <h2 class="title is-3">Resources</h2>
-            <div class="content has-text-justified">
-              <p>
-                Paper, code, demo, and supplementary materials will be linked here when they are available.
-              </p>
-              <ul>
-                <li><strong>Paper:</strong> Coming soon.</li>
-                <li><strong>Code:</strong> Coming soon.</li>
-                <li><strong>Demo:</strong> Coming soon.</li>
-                <li><strong>Supplementary:</strong> Coming soon.</li>
-              </ul>
-            </div>
+    <section class="hero is-small visual-results-section is-light">
+      <div class="hero-body">
+        <div class="container visual-results-container">
+          <h2 class="title is-3 has-text-centered">Visual Results</h2>
+          <div class="visual-results">
+            <img src="assets/visual_results.png" alt="SH-Cubes visual results" loading="lazy">
           </div>
         </div>
       </div>
@@ -266,23 +239,5 @@
       </div>
     </section>
   </main>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-8">
-          <div class="content">
-            <p>
-              This page was built using the
-              <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>,
-              which was adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page.
-              The website template is licensed under a
-              <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
 </body>
 </html>
